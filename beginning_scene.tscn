@@ -9,20 +9,22 @@ albedo_color = Color(1, 0.27058825, 0.27058825, 1)
 material = SubResource("StandardMaterial3D_nlgad")
 
 [sub_resource type="Environment" id="Environment_nlgad"]
+ambient_light_color = Color(1, 1, 1, 1)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_nlgad")
-maximum_refresh_rate = null
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 
+[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D"]
+
 [node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.2530115)
+transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -1.4643176)
 mesh = SubResource("BoxMesh_32sy5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
