@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjmetigvmnoka"]
+[gd_scene load_steps=6 format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
+[ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_32sy5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
 albedo_color = Color(1, 0.27058825, 0.27058825, 1)
@@ -24,8 +25,16 @@ script = ExtResource("1_nlgad")
 tracker = &"right_hand"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D"]
-transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -1.4643176)
+transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
 mesh = SubResource("BoxMesh_32sy5")
+
+[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
+scene = ExtResource("2_32sy5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nlgad")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.28943282, 0, 7.411234, 0)
+
+[connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
