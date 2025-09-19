@@ -38,3 +38,4 @@ environment = SubResource("Environment_nlgad")
 transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.28943282, 0, 7.411234, 0)
 
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
+[connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]
