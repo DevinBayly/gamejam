@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://ceau2sw3wntw0"]
+
+[ext_resource type="Script" uid="uid://dhl6kp67sp14d" path="res://envparent.gd" id="1_a202f"]
+
+[sub_resource type="Sky" id="Sky_noarx"]
+
+[sub_resource type="Environment" id="Environment_a0tk4"]
+background_mode = 2
+sky = SubResource("Sky_noarx")
+ambient_light_color = Color(0.87093055, 0.87093055, 0.87093055, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]
+albedo_color = Color(0.94, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jka67"]
+material = SubResource("StandardMaterial3D_r3fl7")
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_a202f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.471997, 0.8816002, 0, -0.8816002, 0.47199696, 0, 3.0199046, 2.0275483)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_a0tk4")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D"]
+
+[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+show_when_tracked = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D"]
+transform = Transform3D(0.5348596, 0, 0, 0, 0.38359267, 0, 0, 0, 0.435189, 0, 0, 0)
+mesh = SubResource("BoxMesh_jka67")
+
+[node name="XRController3D2" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
