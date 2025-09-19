@@ -44,11 +44,17 @@ func _ready():
         get_tree().quit()
 @onready var xr_controller_3d: XRController3D = $XROrigin3D/XRController3D
 @onready var spatial_anchor_manager: OpenXRFbSpatialAnchorManager = $XROrigin3D/OpenXRFbSpatialAnchorManager
-
+var anchors = [] 
 func _on_xr_controller_3d_button_pressed(name: String) -> void:
     if name == "ax_button":
         spatial_anchor_manager.create_anchor(xr_controller_3d.transform, {})
+    if name == "by_button":
+        var uuid_a = anchors.pop_front()
+        spatial_anchor_manager.untrack_anchor(uuid_a)
+        
 
+func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
+    anchors.push_front(spatial_entity.uuid)
 # Handle OpenXR session ready
 func _on_openxr_session_begun() -> void:
     if xr_interface.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
