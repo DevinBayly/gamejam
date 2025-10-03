@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_32sy5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
-albedo_color = Color(1, 0.27058825, 0.27058825, 1)
+albedo_color = Color(0.78044945, 0.38321212, 0.8760814, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_32sy5"]
 material = SubResource("StandardMaterial3D_nlgad")
