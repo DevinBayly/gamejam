@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtrw2w7xtpwcp"]
+[gd_scene load_steps=3 format=3 uid="uid://dtrw2w7xtpwcp"]
+
+[ext_resource type="Script" uid="uid://nvpugj1thnhw" path="res://video_stream_player.gd" id="1_25iqp"]
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_88j55"]
 file = "test_video.ogg"
@@ -25,3 +27,6 @@ layout_mode = 2
 stream = SubResource("VideoStreamTheora_88j55")
 autoplay = true
 expand = true
+script = ExtResource("1_25iqp")
+
+[connection signal="finished" from="AspectRatioContainer/VideoStreamPlayer" to="AspectRatioContainer/VideoStreamPlayer" method="_on_finished"]
