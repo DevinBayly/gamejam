@@ -1,21 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://bl6g7upd2wukl"]
+[gd_scene load_steps=7 format=3 uid="uid://cjjuryevugb4g"]
 
-[ext_resource type="Script" uid="uid://y3m6g2ytgtdp" path="res://spawn_video.gd" id="1_vbemv"]
+[ext_resource type="Script" path="res://spawn_video.gd" id="1_vbemv"]
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="2_vbemv"]
 [ext_resource type="PackedScene" uid="uid://dtrw2w7xtpwcp" path="res://video.tscn" id="3_lr4wg"]
+[ext_resource type="Material" uid="uid://dau2odw7y6hf0" path="res://viewport_material.tres" id="4_sp4i1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sp4i1"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_sp4i1"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dw3sl"]
-resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_sp4i1")
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_4n4yf"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_dw3sl")
+material = ExtResource("4_sp4i1")
 size = Vector2(1, 0.5)
 center_offset = Vector3(0.5, 0, -0.25)
 

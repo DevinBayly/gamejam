@@ -3,10 +3,25 @@
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_88j55"]
 file = "test_video.ogg"
 
-[node name="video" type="Node2D"]
+[node name="video" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
-offset_right = 1153.0
-offset_bottom = 645.0
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.7
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="AspectRatioContainer"]
+layout_mode = 2
 stream = SubResource("VideoStreamTheora_88j55")
 autoplay = true
+expand = true
