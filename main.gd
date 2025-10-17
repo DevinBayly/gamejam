@@ -15,169 +15,169 @@ var xr_interface : OpenXRInterface
 var xr_is_focussed = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    xr_interface = XRServer.find_interface("OpenXR")
-    if xr_interface and xr_interface.is_initialized():
-        print("OpenXR instantiated successfully.")
-        var vp : Viewport = get_viewport()
+	xr_interface = XRServer.find_interface("OpenXR")
+	if xr_interface and xr_interface.is_initialized():
+		print("OpenXR instantiated successfully.")
+		var vp : Viewport = get_viewport()
 
-        # Enable XR on our viewport
-        vp.use_xr = true
+		# Enable XR on our viewport
+		vp.use_xr = true
 
-        # Make sure v-sync is off, v-sync is handled by OpenXR
-        DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		# Make sure v-sync is off, v-sync is handled by OpenXR
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
-        # Enable VRS
-        if RenderingServer.get_rendering_device():
-            vp.vrs_mode = Viewport.VRS_XR
-        elif int(ProjectSettings.get_setting("xr/openxr/foveation_level")) == 0:
-            push_warning("OpenXR: Recommend setting Foveation level to High in Project Settings")
+		# Enable VRS
+		if RenderingServer.get_rendering_device():
+			vp.vrs_mode = Viewport.VRS_XR
+		elif int(ProjectSettings.get_setting("xr/openxr/foveation_level")) == 0:
+			push_warning("OpenXR: Recommend setting Foveation level to High in Project Settings")
 
-        # Connect the OpenXR events
-        xr_interface.session_begun.connect(_on_openxr_session_begun)
-        xr_interface.session_visible.connect(_on_openxr_visible_state)
-        xr_interface.session_focussed.connect(_on_openxr_focused_state)
-        xr_interface.session_stopping.connect(_on_openxr_stopping)
-        xr_interface.pose_recentered.connect(_on_openxr_pose_recentered)
-    else:
-        # We couldn't start OpenXR.
-        print("OpenXR not instantiated!")
-        get_tree().quit()
+		# Connect the OpenXR events
+		xr_interface.session_begun.connect(_on_openxr_session_begun)
+		xr_interface.session_visible.connect(_on_openxr_visible_state)
+		xr_interface.session_focussed.connect(_on_openxr_focused_state)
+		xr_interface.session_stopping.connect(_on_openxr_stopping)
+		xr_interface.pose_recentered.connect(_on_openxr_pose_recentered)
+	else:
+		# We couldn't start OpenXR.
+		print("OpenXR not instantiated!")
+		get_tree().quit()
 @onready var xr_controller_3d: XRController3D = $XROrigin3D/XRController3D
 @onready var spatial_anchor_manager: OpenXRFbSpatialAnchorManager = $XROrigin3D/OpenXRFbSpatialAnchorManager
 var anchors:Array[StringName] = [] 
 func _on_xr_controller_3d_button_pressed(name: String) -> void:
-    if name == "ax_button":
-        spatial_anchor_manager.create_anchor(xr_controller_3d.transform, {})
-    if name == "by_button":
-        var uuid = anchors.pop_front()
-        if spatial_anchor_manager.get_anchor_uuids().has(uuid):
-            spatial_anchor_manager.untrack_anchor(uuid)
+	if name == "ax_button":
+		spatial_anchor_manager.create_anchor(xr_controller_3d.transform, {})
+	if name == "by_button":
+		var uuid = anchors.pop_front()
+		if spatial_anchor_manager.get_anchor_uuids().has(uuid):
+			spatial_anchor_manager.untrack_anchor(uuid)
 
 func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
-    if is_new:
-        anchors.push_front(spatial_entity.uuid)
-        save_spatial_anchors_to_file()
+	if is_new:
+		anchors.push_front(spatial_entity.uuid)
+		save_spatial_anchors_to_file()
 const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
 
 
 func _on_anchor_untracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity) -> void:
-    save_spatial_anchors_to_file()
+	save_spatial_anchors_to_file()
 
 func load_spatial_anchors_from_file() -> void:
-    var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.READ)
-    if not file:
-        return
+	var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.READ)
+	if not file:
+		return
 
-    var json := JSON.new()
-    if json.parse(file.get_as_text()) != OK:
-        print("ERROR: Unable to parse ", SPATIAL_ANCHORS_FILE)
-        return
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		print("ERROR: Unable to parse ", SPATIAL_ANCHORS_FILE)
+		return
 
-    if not json.data is Dictionary:
-        print("ERROR: ", SPATIAL_ANCHORS_FILE, " contains invalid data")
-        return
+	if not json.data is Dictionary:
+		print("ERROR: ", SPATIAL_ANCHORS_FILE, " contains invalid data")
+		return
 
-    var anchor_data: Dictionary = json.data
-    if anchor_data.size() > 0:
-        spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
+	var anchor_data: Dictionary = json.data
+	if anchor_data.size() > 0:
+		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
 
 
 func save_spatial_anchors_to_file() -> void:
-    var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.WRITE)
-    if not file:
-        print("ERROR: Unable to open file for writing: ", SPATIAL_ANCHORS_FILE)
-        return
+	var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.WRITE)
+	if not file:
+		print("ERROR: Unable to open file for writing: ", SPATIAL_ANCHORS_FILE)
+		return
 
-    var anchor_data: Dictionary
-    for uuid in spatial_anchor_manager.get_anchor_uuids():
-        var entity: OpenXRFbSpatialEntity = spatial_anchor_manager.get_spatial_entity(uuid)
-        anchor_data[uuid] = entity.custom_data
+	var anchor_data: Dictionary
+	for uuid in spatial_anchor_manager.get_anchor_uuids():
+		var entity: OpenXRFbSpatialEntity = spatial_anchor_manager.get_spatial_entity(uuid)
+		anchor_data[uuid] = entity.custom_data
 
-    file.store_string(JSON.stringify(anchor_data))
-    file.close()
+	file.store_string(JSON.stringify(anchor_data))
+	file.close()
 
 # Handle OpenXR session ready
 func _on_openxr_session_begun() -> void:
-    if xr_interface.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
-        get_viewport().transparent_bg = true
-        world_environment.environment.background_mode = Environment.BG_COLOR
-        world_environment.environment.background_color = Color(0.0, 0.0, 0.0, 0.0)
-        xr_interface.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND
-    # Get the reported refresh rate
-    var current_refresh_rate = xr_interface.get_display_refresh_rate()
-    if current_refresh_rate > 0:
-        print("OpenXR: Refresh rate reported as ", str(current_refresh_rate))
-    else:
-        print("OpenXR: No refresh rate given by XR runtime")
+	if xr_interface.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
+		get_viewport().transparent_bg = true
+		world_environment.environment.background_mode = Environment.BG_COLOR
+		world_environment.environment.background_color = Color(0.0, 0.0, 0.0, 0.0)
+		xr_interface.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND
+	# Get the reported refresh rate
+	var current_refresh_rate = xr_interface.get_display_refresh_rate()
+	if current_refresh_rate > 0:
+		print("OpenXR: Refresh rate reported as ", str(current_refresh_rate))
+	else:
+		print("OpenXR: No refresh rate given by XR runtime")
 
-    # See if we have a better refresh rate available
-    var new_rate = current_refresh_rate
-    var available_rates : Array = xr_interface.get_available_display_refresh_rates()
-    if available_rates.size() == 0:
-        print("OpenXR: Target does not support refresh rate extension")
-    elif available_rates.size() == 1:
-        # Only one available, so use it
-        new_rate = available_rates[0]
-    else:
-        for rate in available_rates:
-            if rate > new_rate and rate <= maximum_refresh_rate:
-                new_rate = rate
+	# See if we have a better refresh rate available
+	var new_rate = current_refresh_rate
+	var available_rates : Array = xr_interface.get_available_display_refresh_rates()
+	if available_rates.size() == 0:
+		print("OpenXR: Target does not support refresh rate extension")
+	elif available_rates.size() == 1:
+		# Only one available, so use it
+		new_rate = available_rates[0]
+	else:
+		for rate in available_rates:
+			if rate > new_rate and rate <= maximum_refresh_rate:
+				new_rate = rate
 
-    # Did we find a better rate?
-    if current_refresh_rate != new_rate:
-        print("OpenXR: Setting refresh rate to ", str(new_rate))
-        xr_interface.set_display_refresh_rate(new_rate)
-        current_refresh_rate = new_rate
+	# Did we find a better rate?
+	if current_refresh_rate != new_rate:
+		print("OpenXR: Setting refresh rate to ", str(new_rate))
+		xr_interface.set_display_refresh_rate(new_rate)
+		current_refresh_rate = new_rate
 
-    # Now match our physics rate
-    Engine.physics_ticks_per_second = current_refresh_rate
-    # environment depth stuff
-    if OpenXRMetaEnvironmentDepthExtensionWrapper.is_environment_depth_supported():
-        OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
-    # now load the previous sessions anchors
-    load_spatial_anchors_from_file()
+	# Now match our physics rate
+	Engine.physics_ticks_per_second = current_refresh_rate
+	# environment depth stuff
+	if OpenXRMetaEnvironmentDepthExtensionWrapper.is_environment_depth_supported():
+		OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
+	# now load the previous sessions anchors
+	load_spatial_anchors_from_file()
 
 
 
 # Handle OpenXR visible state
 func _on_openxr_visible_state() -> void:
-    # We always pass this state at startup,
-    # but the second time we get this it means our player took off their headset
-    if xr_is_focussed:
-        print("OpenXR lost focus")
+	# We always pass this state at startup,
+	# but the second time we get this it means our player took off their headset
+	if xr_is_focussed:
+		print("OpenXR lost focus")
 
-        xr_is_focussed = false
+		xr_is_focussed = false
 
-        # pause our game
-        process_mode = Node.PROCESS_MODE_DISABLED
+		# pause our game
+		process_mode = Node.PROCESS_MODE_DISABLED
 
-        emit_signal("focus_lost")
+		emit_signal("focus_lost")
 
 
 # Handle OpenXR focused state
 func _on_openxr_focused_state() -> void:
-    print("OpenXR gained focus")
-    xr_is_focussed = true
+	print("OpenXR gained focus")
+	xr_is_focussed = true
 
-    # unpause our game
-    process_mode = Node.PROCESS_MODE_INHERIT
+	# unpause our game
+	process_mode = Node.PROCESS_MODE_INHERIT
 
-    emit_signal("focus_gained")
+	emit_signal("focus_gained")
 
 
 # Handle OpenXR stopping state
 func _on_openxr_stopping() -> void:
-    # Our session is being stopped.
-    print("OpenXR is stopping")
+	# Our session is being stopped.
+	print("OpenXR is stopping")
 
-    if "--xrsim-automated-tests" in OS.get_cmdline_user_args():
-        # When we're running tests via the XR Simulator, it will end the OpenXR
-        # session automatically, and in that case, we want to quit.
-        get_tree().quit()
+	if "--xrsim-automated-tests" in OS.get_cmdline_user_args():
+		# When we're running tests via the XR Simulator, it will end the OpenXR
+		# session automatically, and in that case, we want to quit.
+		get_tree().quit()
 
 
 # Handle OpenXR pose recentered signal
 func _on_openxr_pose_recentered() -> void:
-    # User recentered view, we have to react to this by recentering the view.
-    # This is game implementation dependent.
-    emit_signal("pose_recentered")
+	# User recentered view, we have to react to this by recentering the view.
+	# This is game implementation dependent.
+	emit_signal("pose_recentered")

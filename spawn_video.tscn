@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://bl6g7upd2wukl"]
+
+[ext_resource type="Script" uid="uid://y3m6g2ytgtdp" path="res://spawn_video.gd" id="1_vbemv"]
+[ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="2_vbemv"]
+[ext_resource type="PackedScene" uid="uid://dtrw2w7xtpwcp" path="res://video.tscn" id="3_lr4wg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sp4i1"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_sp4i1"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dw3sl"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_sp4i1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4n4yf"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_dw3sl")
+size = Vector2(1, 0.5)
+center_offset = Vector3(0.5, 0, -0.25)
+
+[node name="spawn_video" type="Node3D"]
+script = ExtResource("1_vbemv")
+
+[node name="lhs" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.12529945, 0, 0, 0, 0.12529945, 0, 0, 0, 0.12529945, -1.3374659, 1.1390889, 0)
+mesh = SubResource("BoxMesh_sp4i1")
+
+[node name="rhs" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.12529945, 0, 0, 0, 0.12529945, 0, 0, 0, 0.12529945, 1.5811354, 1.1390889, 0)
+mesh = SubResource("BoxMesh_sp4i1")
+
+[node name="ths" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.12529945, 0, 0, 0, 0.12529945, 0, 0, 0, 0.12529945, 1.5811354, 1.9382546, 0)
+mesh = SubResource("BoxMesh_sp4i1")
+
+[node name="Character2" parent="." instance=ExtResource("2_vbemv")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.020661592, 0, 1.9188557)
+gravity_enabled = false
+
+[node name="SubViewport" type="SubViewport" parent="."]
+render_target_update_mode = 3
+
+[node name="video" parent="SubViewport" instance=ExtResource("3_lr4wg")]
+
+[node name="video_layer1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5221772, 0, 0, 0, -6.653648e-08, -1.5221772, 0, 1.5221772, -6.653648e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_4n4yf")

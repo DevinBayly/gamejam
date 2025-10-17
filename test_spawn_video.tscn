@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://q8gli3j4fs44"]
+
+[ext_resource type="PackedScene" uid="uid://bl6g7upd2wukl" path="res://spawn_video.tscn" id="1_i25pf"]
+
+[sub_resource type="Environment" id="Environment_i25pf"]
+background_mode = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="test_spawn_video" type="Node3D"]
+
+[node name="spawn_video" parent="." instance=ExtResource("1_i25pf")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_i25pf")

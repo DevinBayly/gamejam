@@ -14,6 +14,11 @@ config/name="gameJam"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+
 [shader_globals]
 
 META_ENVIRONMENT_DEPTH_AVAILABLE={
