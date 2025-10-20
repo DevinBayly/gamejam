@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtrw2w7xtpwcp"]
+[gd_scene load_steps=4 format=3 uid="uid://dtrw2w7xtpwcp"]
 
 [ext_resource type="Script" uid="uid://nvpugj1thnhw" path="res://video_stream_player.gd" id="1_25iqp"]
+[ext_resource type="Script" uid="uid://dxbcxfg74rgyy" path="res://video.gd" id="1_p518d"]
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_88j55"]
 file = "test_video.ogg"
@@ -12,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_p518d")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 1

@@ -9,13 +9,11 @@ func _ready() -> void:
 	
 	
 	# automated placements
-	place_object(Vector3(0,0,0))
-	place_object(Vector3(3,0,3))
-	place_object(Vector3(0,3,0))
 	
 func place_object(coord):
 	var cube = MeshInstance3D.new()
 	cube.mesh = BoxMesh.new()
+	cube.scale =Vector3(.1,.1,.1)
 	cube.position = coord
 	var mat = StandardMaterial3D.new()
 	cube.mesh.material = mat
@@ -37,7 +35,10 @@ func add_viewport():
 	viewport.add_child(vid_instance)
 	
 	vmat.albedo_texture = viewport.get_texture()
-	
+	# update the size of the subviewport
+	print("video ratio",vid_instance.vidratio)
+	var viewport_height = 256
+	viewport.size = Vector2(vid_instance.vidratio*viewport_height,viewport_height)
 		
 	
 	
@@ -106,7 +107,7 @@ func _input(event: InputEvent) -> void:
 			print("pressed")
 			var pos = Vector3(fps.position)
 			if anchors.size()==2:
-				pos = Vector3(anchors[1].position)
+				pos = Vector3(anchors[0].position)
 				pos.y+=2
 			place_object(pos)
 			
