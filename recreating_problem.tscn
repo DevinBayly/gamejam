@@ -27,4 +27,4 @@ mesh = SubResource("PlaneMesh_p43t1")
 environment = SubResource("Environment_p43t1")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.9999357, 0, 0.011344342, 0, 1, 0, -0.011344342, 0, -0.9999357, 0, 0.9616916, -3.2907915)
+transform = Transform3D(0.9999357, 0, -0.011344253, 0, 1, 0, 0.011344253, 0, 0.9999357, 0.57720816, 0.9616916, 2.7579908)
