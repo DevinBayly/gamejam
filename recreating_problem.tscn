@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://on3hm2ug2ro"]
+[gd_scene load_steps=5 format=3 uid="uid://on3hm2ug2ro"]
 
 [ext_resource type="Script" uid="uid://17gj8lld0lc" path="res://recreating_problem.gd" id="1_p43t1"]
 
@@ -9,8 +9,6 @@
 [sub_resource type="Environment" id="Environment_p43t1"]
 background_mode = 2
 ambient_light_color = Color(0.96474224, 0.96474224, 0.9647421, 1)
-
-[sub_resource type="QuadMesh" id="QuadMesh_p43t1"]
 
 [node name="recreating_problem" type="Node3D"]
 script = ExtResource("1_p43t1")
@@ -30,7 +28,3 @@ environment = SubResource("Environment_p43t1")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.9999357, 0, 0.011344342, 0, 1, 0, -0.011344342, 0, -0.9999357, 0, 0.9616916, -3.2907915)
-
-[node name="plane" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.9880138, 0, 0.15436561, 0, 1, 0, -0.15436561, 0, -0.9880138, 0, 1.0277796, 0)
-mesh = SubResource("QuadMesh_p43t1")

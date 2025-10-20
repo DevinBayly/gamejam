@@ -8,10 +8,14 @@ func _ready() -> void:
 	add_child(viewport)
 	var vid_instance = vid_scene.instantiate()
 	viewport.add_child(vid_instance)
-	var plane = $plane
+	var plane  = MeshInstance3D.new()
+	plane.mesh = QuadMesh.new()
+	
 	var vmat = StandardMaterial3D.new()
 	vmat.albedo_texture = viewport.get_texture()
 	plane.set_surface_override_material(0,vmat)
+	plane.rotate_y(180)
+	add_child(plane)
 func _old() -> void:
 	var vmat = StandardMaterial3D.new()
 	var custom_plane = MeshInstance3D.new()
