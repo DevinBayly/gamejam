@@ -6,7 +6,12 @@ var vmat
 
 func _ready() -> void:
 	vmat = StandardMaterial3D.new()
-	vmat.resource_local_to_scene=true
+	
+	
+	# automated placements
+	place_object(Vector3(0,0,0))
+	place_object(Vector3(3,0,3))
+	place_object(Vector3(0,3,0))
 	
 func place_object(coord):
 	var cube = MeshInstance3D.new()
@@ -17,41 +22,82 @@ func place_object(coord):
 	add_child(cube)
 	anchors.push_back(cube)
 	if anchors.size()==3:
-		make_plane()
+		print("adding viewport")
 		add_viewport()
+		print("making plane")
+		make_plane()
+		
 
 func add_viewport():
+
+	vmat.resource_local_to_scene = true
 	var viewport = SubViewport.new()
 	add_child(viewport)
 	var vid_instance = vid_scene.instantiate()
 	viewport.add_child(vid_instance)
-	# now we have to add things to the vmat
+	
 	vmat.albedo_texture = viewport.get_texture()
+	
 		
 	
 	
-
+var videomesh
 func make_plane():
 	# use the immediate mesh option
 	var custom_plane = MeshInstance3D.new()
 	
-	var mesh = ImmediateMesh.new()
-	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES,vmat)
+	var vertices = PackedVector3Array()
+	
+	# maek a collection of vertices that are ok for a plane
+	#vertices.push_back(Vector3(0,0,0))
+	#vertices.push_back(Vector3(1,0,0))
+	#vertices.push_back(Vector3(0,1,0))
+	#
+	#vertices.push_back(Vector3(1,0,0))
+	#vertices.push_back(Vector3(1,1,0))
+	#vertices.push_back(Vector3(0,1,0))
+	#
+	
+	
+	
+	
+	
 	for a in anchors:
-		mesh.surface_add_vertex(a.position)
+		vertices.push_back(a.position)
+		print(a.position)
 	# use the first and third plus a new point to make the second triangle for the plane
-	var new_pos = Vector3(anchors[0].position.x,anchors[2].position.y,anchors[0].position.z)
+	var new_pos = Vector3(anchors[1].position.x,anchors[2].position.y,anchors[1].position.z)
 	var second_tri = [
-		anchors[2].position,
+		anchors[1].position,
 		new_pos,
-		anchors[0].position
+		anchors[2].position
 	]
 	for a in second_tri:
-		mesh.surface_add_vertex(a)
-	mesh.surface_end()
-	custom_plane.mesh = mesh
+		vertices.push_back(a)
+		
+	var uvs = PackedVector2Array()
+	uvs.push_back(Vector2(0,1))
+	uvs.push_back(Vector2(1,1))
+	uvs.push_back(Vector2(0,0))
+	#
+	uvs.push_back(Vector2(1,1))
+	uvs.push_back(Vector2(1,0))
+	uvs.push_back(Vector2(0,0))
+
+	# Initialize the ArrayMesh.
+	var arr_mesh = ArrayMesh.new()
+	var arrays = []
+	
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	print(arrays)
+# Create the Mesh.
+	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	arr_mesh.surface_set_material(0,vmat)
+	custom_plane.mesh = arr_mesh
 	add_child(custom_plane)
-	mesh.resource_local_to_scene = true
+	videomesh = arr_mesh
 	
 
 func _input(event: InputEvent) -> void:
