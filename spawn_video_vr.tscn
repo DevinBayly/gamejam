@@ -1,22 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjjuryevugb4g"]
+[gd_scene load_steps=6 format=3 uid="uid://cpstnhv64eqyv"]
 
-[ext_resource type="Script" uid="uid://y3m6g2ytgtdp" path="res://spawn_video.gd" id="1_vbemv"]
-[ext_resource type="PackedScene" uid="uid://dtrw2w7xtpwcp" path="res://video.tscn" id="3_lr4wg"]
-[ext_resource type="Material" uid="uid://dau2odw7y6hf0" path="res://viewport_material.tres" id="4_sp4i1"]
+[ext_resource type="Script" uid="uid://y3m6g2ytgtdp" path="res://spawn_video.gd" id="1_gq0hv"]
+[ext_resource type="PackedScene" uid="uid://dtrw2w7xtpwcp" path="res://video.tscn" id="3_qbga6"]
+[ext_resource type="Material" uid="uid://dau2odw7y6hf0" path="res://viewport_material.tres" id="4_b3cnq"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sp4i1"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4n4yf"]
 resource_local_to_scene = true
-material = ExtResource("4_sp4i1")
+material = ExtResource("4_b3cnq")
 size = Vector2(1, 0.5)
 center_offset = Vector3(0.5, 0, -0.25)
 
 [node name="spawn_video" type="Node3D"]
-script = ExtResource("1_vbemv")
+script = ExtResource("1_gq0hv")
 
 [node name="lhs" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.12529945, 0, 0, 0, 0.12529945, 0, 0, 0, 0.12529945, -1.3374659, 1.1390889, 0)
+transform = Transform3D(0.12529945, 0, 0, 0, 0.12529945, 0, 0, 0, 0.12529945, 0.5684705, 1.1390889, 0)
 mesh = SubResource("BoxMesh_sp4i1")
 
 [node name="rhs" type="MeshInstance3D" parent="."]
@@ -30,9 +30,9 @@ mesh = SubResource("BoxMesh_sp4i1")
 [node name="SubViewport" type="SubViewport" parent="."]
 use_xr = true
 size = Vector2i(0, 0)
-render_target_update_mode = 3
+render_target_update_mode = 4
 
-[node name="video" parent="SubViewport" instance=ExtResource("3_lr4wg")]
+[node name="video" parent="SubViewport" instance=ExtResource("3_qbga6")]
 
 [node name="video_layer1" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.5221772, 0, 0, 0, -6.653648e-08, -1.5221772, 0, 1.5221772, -6.653648e-08, 0, 0, 0)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjmetigvmnoka"]
+[gd_scene load_steps=7 format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
 [ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_32sy5"]
+[ext_resource type="PackedScene" uid="uid://q8gli3j4fs44" path="res://test_spawn_video.tscn" id="3_8im6b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
 albedo_color = Color(0.78044945, 0.38321212, 0.8760814, 1)
@@ -36,6 +37,9 @@ environment = SubResource("Environment_nlgad")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.28943282, 0, 7.411234, 0)
+
+[node name="test_spawn_video" parent="." instance=ExtResource("3_8im6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8587414)
 
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
 [connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]
