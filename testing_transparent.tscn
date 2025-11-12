@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://c5pw2wkel61nd"]
+
+[ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="1_v6wjf"]
+[ext_resource type="PackedScene" uid="uid://bh1kfopverui2" path="res://transparent_image.tscn" id="2_mano1"]
+[ext_resource type="Material" uid="uid://dau2odw7y6hf0" path="res://viewport_material.tres" id="3_5a0kb"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_g53o6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6wjf"]
+shading_mode = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0qyqs"]
+material = SubResource("StandardMaterial3D_v6wjf")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x2vsp"]
+resource_local_to_scene = true
+material = ExtResource("3_5a0kb")
+size = Vector2(1, 0.5)
+center_offset = Vector3(0.5, 0, -0.25)
+
+[sub_resource type="Sky" id="Sky_v6wjf"]
+
+[sub_resource type="Environment" id="Environment_v6wjf"]
+sky = SubResource("Sky_v6wjf")
+ambient_light_source = 3
+ambient_light_color = Color(0.96474224, 0.96474224, 0.9647421, 1)
+
+[node name="testing_transparent" type="Node3D"]
+
+[node name="Character" parent="." instance=ExtResource("1_v6wjf")]
+transform = Transform3D(0.96960783, 0, -0.24466439, 0, 1, 0, 0.24466439, 0, 0.96960783, 0, 0, 2.7678852)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5547824, 0)
+shape = SubResource("WorldBoundaryShape3D_g53o6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(7.651917, 0, 0, 0, 1, 0, 0, 0, 6.4120297, 0, 0, 0)
+mesh = SubResource("PlaneMesh_0qyqs")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="Control" parent="SubViewport" instance=ExtResource("2_mano1")]
+
+[node name="video_layer1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5221772, 0, 0, 0, -6.653648e-08, -1.5221772, 0, 1.5221772, -6.653648e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_x2vsp")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v6wjf")

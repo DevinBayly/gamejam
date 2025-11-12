@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6y443eknk7km"]
+
+[sub_resource type="Sky" id="Sky_pgaca"]
+
+[sub_resource type="Environment" id="Environment_pgaca"]
+sky = SubResource("Sky_pgaca")
+ambient_light_source = 3
+ambient_light_color = Color(0.98234254, 0.9823423, 0.9823424, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jbjmg"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8897165, 0, 1.8813319)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pgaca")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_jbjmg")

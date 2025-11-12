@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://bh1kfopverui2"]
+
+[ext_resource type="Texture2D" uid="uid://x04kshvq8xp0" path="res://transparent.png" id="1_vwjcq"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("1_vwjcq")
