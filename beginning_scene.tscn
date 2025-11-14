@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjmetigvmnoka"]
+[gd_scene load_steps=9 format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
+[ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_8im6b"]
 [ext_resource type="Texture2D" uid="uid://bn1bqmm6r7p4x" path="res://icon.svg" id="2_32sy5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
@@ -38,6 +39,7 @@ transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
 mesh = SubResource("BoxMesh_32sy5")
 
 [node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
+scene = ExtResource("2_8im6b")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nlgad")
@@ -50,3 +52,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14499992, 1.8024982, -0.633
 mesh = SubResource("QuadMesh_ip8dt")
 
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
+[connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]
+[connection signal="openxr_fb_spatial_anchor_untracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_untracked"]
