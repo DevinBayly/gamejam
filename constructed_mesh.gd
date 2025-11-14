@@ -37,6 +37,7 @@ func add_transparent_material():
 	vmat.albedo_texture = image_texture
 	vmat.albedo_color = Color(1,1,1,.2)
 	vmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	vmat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	
 func add_viewport():
 
@@ -85,12 +86,12 @@ func make_plane():
 		
 	var uvs = PackedVector2Array()
 	uvs.push_back(Vector2(0,0))# 0
-	uvs.push_back(Vector2(1,0))# 1
+	uvs.push_back(Vector2(0,1))# 1
 	uvs.push_back(Vector2(1,1))# 2
 	#
 	uvs.push_back(Vector2(0,0)) #0
 	uvs.push_back(Vector2(1,1)) #2
-	uvs.push_back(Vector2(0,1))#3
+	uvs.push_back(Vector2(1,0))#3
 
 	# Initialize the ArrayMesh.
 	var arr_mesh = ArrayMesh.new()

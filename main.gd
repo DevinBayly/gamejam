@@ -53,11 +53,25 @@ func _on_xr_controller_3d_button_pressed(name: String) -> void:
 		var uuid = anchors.pop_front()
 		if spatial_anchor_manager.get_anchor_uuids().has(uuid):
 			spatial_anchor_manager.untrack_anchor(uuid)
-	print("name is",name)
+		mesh_creator.reset()
 	if name == "trigger_click":
 		print("positioning")
-		for a_node in anchor_nodes:
-			mesh_creator.place_object(a_node.position)
+		#using two markers make the set of four to upload
+		var nodes = [
+			anchor_nodes[0].position,
+			Vector3(anchor_nodes[0].position.x,
+			anchor_nodes[1].position.y,
+			anchor_nodes[0].position.z),
+			anchor_nodes[1].position,
+			Vector3(anchor_nodes[1].position.x,
+			anchor_nodes[0].position.y,
+			anchor_nodes[1].position.z)
+
+			
+		]
+		
+		for a_node in nodes:
+			mesh_creator.place_object(a_node)
 		
 
 func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
