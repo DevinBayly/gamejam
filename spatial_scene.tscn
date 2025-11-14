@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsq3yh86onm8n"]
+[gd_scene load_steps=4 format=3 uid="uid://dsq3yh86onm8n"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_5wm6u"]
+[ext_resource type="Texture2D" uid="uid://x04kshvq8xp0" path="res://transparent.png" id="1_j4f3g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdywa"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.33333334)
+albedo_texture = ExtResource("1_j4f3g")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vlwna"]
+material = SubResource("StandardMaterial3D_xdywa")
 
 [node name="spatial_scene" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.22663063, 0, 0, 0, 0.22663063, 0, 0, 0, 0.22663063, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_5wm6u")
+mesh = SubResource("QuadMesh_vlwna")

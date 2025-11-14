@@ -45,6 +45,7 @@ func _ready():
 @onready var xr_controller_3d: XRController3D = $XROrigin3D/XRController3D
 @onready var spatial_anchor_manager: OpenXRFbSpatialAnchorManager = $XROrigin3D/OpenXRFbSpatialAnchorManager
 var anchors:Array[StringName] = [] 
+var anchor_nodes = []
 func _on_xr_controller_3d_button_pressed(name: String) -> void:
 	if name == "ax_button":
 		spatial_anchor_manager.create_anchor(xr_controller_3d.transform, {})
@@ -56,8 +57,9 @@ func _on_xr_controller_3d_button_pressed(name: String) -> void:
 func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
 	if is_new:
 		anchors.push_front(spatial_entity.uuid)
+		anchor_nodes.push_front(anchor_node)
 		save_spatial_anchors_to_file()
-const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
+const SPATIAL_ANCHORS_FILE = "res://openxr_fb_spatial_anchors.json"
 
 
 func _on_anchor_untracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity) -> void:
@@ -80,7 +82,7 @@ func load_spatial_anchors_from_file() -> void:
 	var anchor_data: Dictionary = json.data
 	if anchor_data.size() > 0:
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
-
+		#spatial_anchor_manager.untrack_anchor(anchor_data)
 
 func save_spatial_anchors_to_file() -> void:
 	var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.WRITE)
