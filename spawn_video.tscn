@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cjjuryevugb4g"]
 
 [ext_resource type="Script" uid="uid://y3m6g2ytgtdp" path="res://spawn_video.gd" id="1_vbemv"]
-[ext_resource type="PackedScene" uid="uid://dtrw2w7xtpwcp" path="res://video.tscn" id="3_lr4wg"]
+[ext_resource type="PackedScene" uid="uid://bh1kfopverui2" path="res://transparent_image.tscn" id="2_lr4wg"]
 [ext_resource type="Material" uid="uid://dau2odw7y6hf0" path="res://viewport_material.tres" id="4_sp4i1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sp4i1"]
@@ -30,9 +30,9 @@ mesh = SubResource("BoxMesh_sp4i1")
 [node name="SubViewport" type="SubViewport" parent="."]
 use_xr = true
 size = Vector2i(0, 0)
-render_target_update_mode = 3
+render_target_update_mode = 4
 
-[node name="video" parent="SubViewport" instance=ExtResource("3_lr4wg")]
+[node name="Control" parent="SubViewport" instance=ExtResource("2_lr4wg")]
 
 [node name="video_layer1" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.5221772, 0, 0, 0, -6.653648e-08, -1.5221772, 0, 1.5221772, -6.653648e-08, 0, 0, 0)

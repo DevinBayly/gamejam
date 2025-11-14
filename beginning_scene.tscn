@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjmetigvmnoka"]
+[gd_scene load_steps=8 format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
-[ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_32sy5"]
-[ext_resource type="PackedScene" uid="uid://q8gli3j4fs44" path="res://test_spawn_video.tscn" id="3_8im6b"]
+[ext_resource type="Texture2D" uid="uid://bn1bqmm6r7p4x" path="res://icon.svg" id="2_32sy5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
 albedo_color = Color(0.78044945, 0.38321212, 0.8760814, 1)
@@ -12,6 +11,15 @@ material = SubResource("StandardMaterial3D_nlgad")
 
 [sub_resource type="Environment" id="Environment_nlgad"]
 ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qn7c"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.16470589)
+albedo_texture = ExtResource("2_32sy5")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ip8dt"]
+material = SubResource("StandardMaterial3D_8qn7c")
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_nlgad")
@@ -30,7 +38,6 @@ transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
 mesh = SubResource("BoxMesh_32sy5")
 
 [node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
-scene = ExtResource("2_32sy5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nlgad")
@@ -38,8 +45,8 @@ environment = SubResource("Environment_nlgad")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.28943282, 0, 7.411234, 0)
 
-[node name="test_spawn_video" parent="." instance=ExtResource("3_8im6b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8587414)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14499992, 1.8024982, -0.6336664)
+mesh = SubResource("QuadMesh_ip8dt")
 
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
-[connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]

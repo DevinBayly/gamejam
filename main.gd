@@ -98,11 +98,11 @@ func save_spatial_anchors_to_file() -> void:
 
 # Handle OpenXR session ready
 func _on_openxr_session_begun() -> void:
-	#if xr_interface.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
-		#get_viewport().transparent_bg = true
-		#world_environment.environment.background_mode = Environment.BG_COLOR
-		#world_environment.environment.background_color = Color(0.0, 0.0, 0.0, 0.0)
-		#xr_interface.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND
+	if xr_interface.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
+		get_viewport().transparent_bg = true
+		world_environment.environment.background_mode = Environment.BG_COLOR
+		world_environment.environment.background_color = Color(0.0, 0.0, 0.0, 0.0)
+		xr_interface.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND
 	# Get the reported refresh rate
 	var current_refresh_rate = xr_interface.get_display_refresh_rate()
 	if current_refresh_rate > 0:
@@ -132,8 +132,8 @@ func _on_openxr_session_begun() -> void:
 	# Now match our physics rate
 	Engine.physics_ticks_per_second = current_refresh_rate
 	# environment depth stuff
-	#if OpenXRMetaEnvironmentDepthExtensionWrapper.is_environment_depth_supported():
-		#OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
+	if OpenXRMetaEnvironmentDepthExtensionWrapper.is_environment_depth_supported():
+		OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
 	# now load the previous sessions anchors
 	load_spatial_anchors_from_file()
 
