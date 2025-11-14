@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuhxofr5m8eqw"]
+
+[ext_resource type="Script" uid="uid://c57g72dsr16cl" path="res://constructed_mesh.gd" id="1_235n5"]
+
+[node name="constructed_mesh_VR" type="Node3D"]
+script = ExtResource("1_235n5")

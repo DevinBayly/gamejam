@@ -7,7 +7,7 @@ extends Node3D
 signal focus_lost
 signal focus_gained
 signal pose_recentered
-
+@onready var mesh_creator= $constructed_mesh
 @export var maximum_refresh_rate : int = 90
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
 
@@ -53,11 +53,18 @@ func _on_xr_controller_3d_button_pressed(name: String) -> void:
 		var uuid = anchors.pop_front()
 		if spatial_anchor_manager.get_anchor_uuids().has(uuid):
 			spatial_anchor_manager.untrack_anchor(uuid)
+	print("name is",name)
+	if name == "trigger_click":
+		print("positioning")
+		for a_node in anchor_nodes:
+			mesh_creator.place_object(a_node.position)
+		
 
 func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
 	if is_new:
 		anchors.push_front(spatial_entity.uuid)
 		anchor_nodes.push_front(anchor_node)
+		
 		save_spatial_anchors_to_file()
 const SPATIAL_ANCHORS_FILE = "res://openxr_fb_spatial_anchors.json"
 
@@ -137,7 +144,7 @@ func _on_openxr_session_begun() -> void:
 	if OpenXRMetaEnvironmentDepthExtensionWrapper.is_environment_depth_supported():
 		OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
 	# now load the previous sessions anchors
-	load_spatial_anchors_from_file()
+	#load_spatial_anchors_from_file()
 
 
 
