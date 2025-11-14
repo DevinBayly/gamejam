@@ -35,7 +35,7 @@ func add_transparent_material():
 	#
 	var image_texture = load("res://icon.svg")
 	vmat.albedo_texture = image_texture
-	vmat.albedo_color = Color(1,1,1,.2)
+	vmat.albedo_color = Color(1,1,1,.5)
 	vmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	vmat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	

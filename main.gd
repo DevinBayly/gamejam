@@ -56,6 +56,11 @@ func _on_xr_controller_3d_button_pressed(name: String) -> void:
 		mesh_creator.reset()
 	if name == "trigger_click":
 		print("positioning")
+		if anchor_nodes.size() ==0:
+			var children = $XROrigin3D.get_children()
+			for child in children:
+				if child is XRAnchor3D:
+					anchor_nodes.push_front(child)
 		#using two markers make the set of four to upload
 		var nodes = [
 			anchor_nodes[0].position,
@@ -103,6 +108,8 @@ func load_spatial_anchors_from_file() -> void:
 	var anchor_data: Dictionary = json.data
 	if anchor_data.size() > 0:
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
+	
+		#anchor_nodes.push_front(anchor_node)
 		#spatial_anchor_manager.untrack_anchor(anchor_data)
 
 func save_spatial_anchors_to_file() -> void:
@@ -158,7 +165,7 @@ func _on_openxr_session_begun() -> void:
 	if OpenXRMetaEnvironmentDepthExtensionWrapper.is_environment_depth_supported():
 		OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
 	# now load the previous sessions anchors
-	#load_spatial_anchors_from_file()
+	load_spatial_anchors_from_file()
 
 
 
