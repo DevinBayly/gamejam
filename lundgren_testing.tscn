@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8t0blquqb5dw"]
+
+[ext_resource type="PackedScene" uid="uid://bxxfof25t2hys" path="res://lundgren_v1.tscn" id="1_qcb7f"]
+
+[node name="lundgren_testing" type="Node3D"]
+
+[node name="Node3D" parent="." instance=ExtResource("1_qcb7f")]
+
+[node name="lhs" parent="Node3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.466179, 0, -9.899025)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 57)
+
+[editable path="Node3D"]
