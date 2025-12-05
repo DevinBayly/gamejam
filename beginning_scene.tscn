@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
-[ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_8im6b"]
+[ext_resource type="PackedScene" uid="uid://bxxfof25t2hys" path="res://lundgren_v1.tscn" id="2_8im6b"]
 [ext_resource type="PackedScene" uid="uid://cuhxofr5m8eqw" path="res://constructed_mesh_vr.tscn" id="4_8qn7c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
@@ -28,6 +28,7 @@ tracker = &"right_hand"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D"]
 transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
+visible = false
 mesh = SubResource("BoxMesh_32sy5")
 
 [node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
