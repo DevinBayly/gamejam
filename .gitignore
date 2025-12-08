@@ -2,3 +2,4 @@
 .godot/
 addons
 /android/
+"sprites\animated GIFs and PNG art assets\frames\*.png"

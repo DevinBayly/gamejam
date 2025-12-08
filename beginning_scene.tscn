@@ -1,8 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjmetigvmnoka"]
+[gd_scene load_steps=18 format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
-[ext_resource type="PackedScene" uid="uid://bxxfof25t2hys" path="res://lundgren_v1.tscn" id="2_8im6b"]
-[ext_resource type="PackedScene" uid="uid://cuhxofr5m8eqw" path="res://constructed_mesh_vr.tscn" id="4_8qn7c"]
+[ext_resource type="Texture2D" uid="uid://do47eggwmrquq" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0005.png" id="2_w3f4l"]
+[ext_resource type="Texture2D" uid="uid://bx5akmpiuy3m7" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0006.png" id="3_ocjjg"]
+[ext_resource type="Texture2D" uid="uid://d3y45as0h413x" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0007.png" id="4_31ux4"]
+[ext_resource type="Texture2D" uid="uid://crsgidftakmlp" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0008.png" id="5_8mwo2"]
+[ext_resource type="Texture2D" uid="uid://ivflgwu8vpmd" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0009.png" id="6_jfppv"]
+[ext_resource type="Texture2D" uid="uid://wdn44enim1ep" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0010.png" id="7_oolc6"]
+[ext_resource type="Texture2D" uid="uid://ddd56ms11cb2p" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0011.png" id="8_o5l4c"]
+[ext_resource type="Texture2D" uid="uid://k863666vjwgr" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0012.png" id="9_e4kw4"]
+[ext_resource type="Texture2D" uid="uid://bdxv2dodqls4t" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0013.png" id="10_oxd20"]
+[ext_resource type="Texture2D" uid="uid://buid1dyqtcd8m" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0014.png" id="11_xb6et"]
+[ext_resource type="Texture2D" uid="uid://c2l0ixbjp05cl" path="res://sprites/animated GIFs and PNG art assets/frames/2_center_panels_everything0015.png" id="12_pwx12"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
 albedo_color = Color(0.78044945, 0.38321212, 0.8760814, 1)
@@ -12,6 +21,49 @@ material = SubResource("StandardMaterial3D_nlgad")
 
 [sub_resource type="Environment" id="Environment_nlgad"]
 ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mniov"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w3f4l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ocjjg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_31ux4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8mwo2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_jfppv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_oolc6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_o5l4c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_e4kw4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_oxd20")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_xb6et")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_pwx12")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="BoxMesh" id="BoxMesh_t5mqu"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_nlgad")
@@ -32,7 +84,6 @@ visible = false
 mesh = SubResource("BoxMesh_32sy5")
 
 [node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
-scene = ExtResource("2_8im6b")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nlgad")
@@ -40,8 +91,17 @@ environment = SubResource("Environment_nlgad")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.28943282, 0, 7.411234, 0)
 
-[node name="constructed_mesh" parent="." instance=ExtResource("4_8qn7c")]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.5409927)
+sprite_frames = SubResource("SpriteFrames_mniov")
+frame = 10
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatedSprite3D"]
+transform = Transform3D(0.12683386, 0, 0, 0, 0.12683386, 0, 0, 0, 0.12683386, -7.0499396, -2.3175716, 0)
+mesh = SubResource("BoxMesh_t5mqu")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="AnimatedSprite3D"]
+transform = Transform3D(0.12683386, 0, 0, 0, 0.12683386, 0, 0, 0, 0.12683386, 6.083789, 1.8500501, 0)
+mesh = SubResource("BoxMesh_t5mqu")
 
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
-[connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]
-[connection signal="openxr_fb_spatial_anchor_untracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_untracked"]
