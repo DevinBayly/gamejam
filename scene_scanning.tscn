@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqbxu4efls7ti"]
+
+[ext_resource type="Script" uid="uid://b85u52bauuvqp" path="res://scene_scanning.gd" id="1_15jl3"]
+[ext_resource type="PackedScene" uid="uid://brtjvt25ibj0c" path="res://scene_label.tscn" id="2_aas2a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
+albedo_color = Color(0.78044945, 0.38321212, 0.8760814, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_32sy5"]
+material = SubResource("StandardMaterial3D_nlgad")
+
+[sub_resource type="Environment" id="Environment_nlgad"]
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_15jl3")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D"]
+visible = false
+
+[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D"]
+transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
+visible = false
+mesh = SubResource("BoxMesh_32sy5")
+
+[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
+
+[node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D"]
+default_scene = ExtResource("2_aas2a")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nlgad")
+
+[connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]

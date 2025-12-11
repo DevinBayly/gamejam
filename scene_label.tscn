@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://brtjvt25ibj0c"]
+
+[ext_resource type="Script" uid="uid://bojnx1yg6m77o" path="res://scene_label.gd" id="1_8bym4"]
+
+[node name="StaticBody3D" type="StaticBody3D"]
+script = ExtResource("1_8bym4")
+
+[node name="Label3D" type="Label3D" parent="."]
