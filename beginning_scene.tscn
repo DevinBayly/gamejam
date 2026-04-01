@@ -10,8 +10,8 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ip8dt"]
 material = SubResource("StandardMaterial3D_8qn7c")
-top_radius = 0.15
-bottom_radius = 0.05
+top_radius = 0.05
+bottom_radius = 0.01
 height = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_56g30"]
@@ -37,10 +37,11 @@ visible = false
 tracker = &"right_hand"
 
 [node name="ray_mesh" type="MeshInstance3D" parent="XROrigin3D/XRController3D" unique_id=1633955538]
-transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, 0)
+transform = Transform3D(0.205, 0, 0, 0, -8.960835e-09, -0.205, 0, 0.205, -8.960835e-09, 0, 0, -0.55185694)
 mesh = SubResource("CylinderMesh_ip8dt")
 
 [node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/XRController3D" unique_id=1328489753]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 collide_with_areas = true
 debug_shape_custom_color = Color(0, 1, 0, 1)
 
