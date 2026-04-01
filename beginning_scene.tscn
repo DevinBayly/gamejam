@@ -5,11 +5,20 @@
 [ext_resource type="PackedScene" uid="uid://dynhv15ex755h" path="res://static_body_3d.tscn" id="3_8qn7c"]
 [ext_resource type="PackedScene" uid="uid://cuhxofr5m8eqw" path="res://constructed_mesh_vr.tscn" id="4_8qn7c"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
-albedo_color = Color(0.78044945, 0.38321212, 0.8760814, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qn7c"]
+albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_32sy5"]
-material = SubResource("StandardMaterial3D_nlgad")
+[sub_resource type="CylinderMesh" id="CylinderMesh_ip8dt"]
+material = SubResource("StandardMaterial3D_8qn7c")
+top_radius = 0.15
+bottom_radius = 0.05
+height = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_56g30"]
+albedo_color = Color(0.35453504, 0.1843, 0.97, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eim8f"]
+material = SubResource("StandardMaterial3D_56g30")
 
 [sub_resource type="Environment" id="Environment_nlgad"]
 ambient_light_color = Color(1, 1, 1, 1)
@@ -27,9 +36,17 @@ visible = false
 [node name="XRController3D" type="XRController3D" parent="XROrigin3D" unique_id=1171409594]
 tracker = &"right_hand"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D" unique_id=1633955538]
-transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
-mesh = SubResource("BoxMesh_32sy5")
+[node name="ray_mesh" type="MeshInstance3D" parent="XROrigin3D/XRController3D" unique_id=1633955538]
+transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, 0)
+mesh = SubResource("CylinderMesh_ip8dt")
+
+[node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/XRController3D" unique_id=1328489753]
+collide_with_areas = true
+debug_shape_custom_color = Color(0, 1, 0, 1)
+
+[node name="collision_marker" type="MeshInstance3D" parent="XROrigin3D/XRController3D" unique_id=507355066]
+transform = Transform3D(0.06139362, 0, 0, 0, 0.06139362, 0, 0, 0, 0.06139362, 0, 0, 0)
+mesh = SubResource("SphereMesh_eim8f")
 
 [node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D" unique_id=656752478]
 scene = ExtResource("2_8im6b")

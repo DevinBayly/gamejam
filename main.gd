@@ -12,7 +12,8 @@ signal pose_recentered
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
 
 @onready var scene_manager: OpenXRFbSceneManager = $XROrigin3D/OpenXRFbSceneManager
-
+@onready var raycast_element = $XROrigin3D/XRController3D/RayCast3D
+@onready var collision_marker = $XROrigin3D/XRController3D/collision_marker
 var xr_interface : OpenXRInterface
 var xr_is_focussed = false
 # Called when the node enters the scene tree for the first time.
@@ -186,6 +187,36 @@ func _scene_capture_completed(success: bool) -> void:
 
 	# Create scene_anchors for the freshly captured scene
 	scene_manager.create_scene_anchors()
+var active_colliding_mesh:  CollisionObject3D
+func _physics_process(delta: float) -> void:
+	
+		if raycast_element.is_colliding():
+			var collision_point: Vector3 = raycast_element.get_collision_point()
+			collision_marker.global_position = collision_point
+
+			#var pointer_length: float = (collision_point - right_hand_pointer.global_position).length()
+			#scene_pointer_mesh.mesh.size.z = pointer_length
+			#scene_pointer_mesh.position.z = -pointer_length / 2.0
+
+			active_colliding_mesh= raycast_element.get_collider()
+			
+			#if collider and collider.get_collision_layer_value(3):
+				#selected_spatial_anchor_node = collider
+			#else:
+				#selected_spatial_anchor_node = null
+		#else:
+			#scene_pointer_mesh.mesh.size.z = 5
+			#scene_pointer_mesh.position.z = -2.5
+			#selected_spatial_anchor_node = null
+#
+		#if previous_selected_spatial_anchor_node != selected_spatial_anchor_node:
+			#if previous_selected_spatial_anchor_node:
+				#previous_selected_spatial_anchor_node.set_selected(false)
+			#if selected_spatial_anchor_node:
+				#selected_spatial_anchor_node.set_selected(true)
+				#scene_colliding_mesh.visible = false
+			#else:
+				#scene_colliding_mesh.visible = true
 
 
 # Handle OpenXR visible state
