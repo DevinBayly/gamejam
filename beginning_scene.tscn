@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjmetigvmnoka"]
+[gd_scene format=3 uid="uid://cjmetigvmnoka"]
 
 [ext_resource type="Script" uid="uid://djt1hg4dshw76" path="res://main.gd" id="1_nlgad"]
 [ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_8im6b"]
+[ext_resource type="PackedScene" uid="uid://dynhv15ex755h" path="res://static_body_3d.tscn" id="3_8qn7c"]
 [ext_resource type="PackedScene" uid="uid://cuhxofr5m8eqw" path="res://constructed_mesh_vr.tscn" id="4_8qn7c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlgad"]
@@ -13,33 +14,37 @@ material = SubResource("StandardMaterial3D_nlgad")
 [sub_resource type="Environment" id="Environment_nlgad"]
 ambient_light_color = Color(1, 1, 1, 1)
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" unique_id=219162216]
 script = ExtResource("1_nlgad")
 
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=556679403]
 
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=665356120]
 
-[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D"]
+[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D" unique_id=551304786]
 visible = false
 
-[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+[node name="XRController3D" type="XRController3D" parent="XROrigin3D" unique_id=1171409594]
 tracker = &"right_hand"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRController3D" unique_id=1633955538]
 transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, -0.8550986)
 mesh = SubResource("BoxMesh_32sy5")
 
-[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
+[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D" unique_id=656752478]
 scene = ExtResource("2_8im6b")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D" unique_id=1438252981]
+default_scene = ExtResource("3_8qn7c")
+visible = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1038992388]
 environment = SubResource("Environment_nlgad")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1119648181]
 transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.28943282, 0, 7.411234, 0)
 
-[node name="constructed_mesh" parent="." instance=ExtResource("4_8qn7c")]
+[node name="constructed_mesh" parent="." unique_id=633397180 instance=ExtResource("4_8qn7c")]
 
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
 [connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]

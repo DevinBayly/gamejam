@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dynhv15ex755h"]
+
+[ext_resource type="Script" uid="uid://c851rku7ue1kd" path="res://static_body_3d.gd" id="1_wago0"]
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=1242765882]
+script = ExtResource("1_wago0")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=377674498]

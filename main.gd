@@ -11,6 +11,8 @@ signal pose_recentered
 @export var maximum_refresh_rate : int = 90
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
 
+@onready var scene_manager: OpenXRFbSceneManager = $XROrigin3D/OpenXRFbSceneManager
+
 var xr_interface : OpenXRInterface
 var xr_is_focussed = false
 # Called when the node enters the scene tree for the first time.
@@ -166,7 +168,24 @@ func _on_openxr_session_begun() -> void:
 		OpenXRMetaEnvironmentDepthExtensionWrapper.start_environment_depth()
 	# now load the previous sessions anchors
 	load_spatial_anchors_from_file()
+	scene_manager.openxr_fb_scene_data_missing.connect(_scene_data_missing)
+	scene_manager.openxr_fb_scene_capture_completed.connect(_scene_capture_completed)
 
+
+
+func _scene_data_missing() -> void:
+	scene_manager.request_scene_capture()
+
+func _scene_capture_completed(success: bool) -> void:
+	if success == false:
+		return
+
+	# Delete any existing anchors, since the user may have changed them.
+	if scene_manager.are_scene_anchors_created():
+		scene_manager.remove_scene_anchors()
+
+	# Create scene_anchors for the freshly captured scene
+	scene_manager.create_scene_anchors()
 
 
 # Handle OpenXR visible state
