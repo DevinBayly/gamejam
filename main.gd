@@ -51,7 +51,8 @@ var anchors:Array[StringName] = []
 var anchor_nodes = []
 func _on_xr_controller_3d_button_pressed(name: String) -> void:
 	if name == "ax_button":
-		spatial_anchor_manager.create_anchor(xr_controller_3d.transform, {})
+		var transform_pt = Transform3D(Basis.IDENTITY,collision_point)
+		spatial_anchor_manager.create_anchor(transform_pt, {})
 	if name == "by_button":
 		var uuid = anchors.pop_front()
 		if spatial_anchor_manager.get_anchor_uuids().has(uuid):
@@ -188,10 +189,11 @@ func _scene_capture_completed(success: bool) -> void:
 	# Create scene_anchors for the freshly captured scene
 	scene_manager.create_scene_anchors()
 var active_colliding_mesh:  CollisionObject3D
+var collision_point: Vector3 
 func _physics_process(delta: float) -> void:
 	
 		if raycast_element.is_colliding():
-			var collision_point: Vector3 = raycast_element.get_collision_point()
+			collision_point= raycast_element.get_collision_point()
 			collision_marker.global_position = collision_point
 
 			#var pointer_length: float = (collision_point - right_hand_pointer.global_position).length()
