@@ -16,19 +16,20 @@ var laptop = false
 func _ready() -> void:
     #if OS.has_feature("linux"):
     var args = OS.get_cmdline_user_args()
-    var arg = args[0] # try to see if we started up with the word "server"
-    print(OS.get_cmdline_user_args())
-    if arg == "server":
-        print("I am a server")
-        # Create server.
-        peer = ENetMultiplayerPeer.new()
-        peer.create_server(PORT, MAX_CLIENTS)
-        multiplayer.multiplayer_peer = peer
-        multiplayer.peer_connected.connect(server_handle_peer_connect)
-        return
-    if arg == "laptop":
-        print("I'm also a laptop")
-        laptop=true		
+    if args.size() > 0:
+        var arg = args[0] # try to see if we started up with the word "server"
+        print(OS.get_cmdline_user_args())
+        if arg == "server":
+            print("I am a server")
+            # Create server.
+            peer = ENetMultiplayerPeer.new()
+            peer.create_server(PORT, MAX_CLIENTS)
+            multiplayer.multiplayer_peer = peer
+            multiplayer.peer_connected.connect(server_handle_peer_connect)
+            return
+        if arg == "laptop":
+            print("I'm also a laptop")
+            laptop=true		
 
     print("I am a client")
     var peer = ENetMultiplayerPeer.new()
@@ -41,7 +42,7 @@ func _ready() -> void:
     
 func client_handle_peer_connect(id):
     num_peers+=1
-    if laptop:
+    if laptop and id != 1:
         print(" a headset peer just connected, ready to send links ",id," is id")
         headset_client_connected.emit()
     
@@ -53,7 +54,10 @@ func client_connected_to_server():
     print("client made contact with server")
     # start a timeout that will then make an rpc call
     await get_tree().create_timer(2).timeout
-    send_user_id.rpc("itsame")
+    if not laptop:
+        send_user_id.rpc("I'm a headset")
+    else:
+        send_user_id.rpc("I'm a laptop")
     
 func server_handle_peer_connect(id):
     print("server was contacted by peer id",id)

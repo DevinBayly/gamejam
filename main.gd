@@ -10,7 +10,7 @@ signal pose_recentered
 @onready var mesh_creator= $constructed_mesh
 @export var maximum_refresh_rate : int = 90
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
-
+@onready var constructed_mesh = $constructed_mesh
 @onready var scene_manager: OpenXRFbSceneManager = $XROrigin3D/OpenXRFbSceneManager
 @onready var raycast_element = $XROrigin3D/XRController3D/RayCast3D
 @onready var collision_marker = $XROrigin3D/XRController3D/collision_marker
@@ -272,3 +272,9 @@ func _on_openxr_pose_recentered() -> void:
 	# User recentered view, we have to react to this by recentering the view.
 	# This is game implementation dependent.
 	emit_signal("pose_recentered")
+
+
+func _on_networking_received_link(url) -> void:
+	print("main node received a url ",url)
+	constructed_mesh.set_url(url)
+	pass # Replace with function body.

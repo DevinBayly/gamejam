@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dsq3yh86onm8n" path="res://spatial_scene.tscn" id="2_8im6b"]
 [ext_resource type="PackedScene" uid="uid://dynhv15ex755h" path="res://static_body_3d.tscn" id="3_8qn7c"]
 [ext_resource type="PackedScene" uid="uid://cuhxofr5m8eqw" path="res://constructed_mesh_vr.tscn" id="4_8qn7c"]
+[ext_resource type="PackedScene" uid="uid://cg11kqsbp2v0n" path="res://networking.tscn" id="5_ip8dt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qn7c"]
 albedo_color = Color(1, 0, 0, 1)
@@ -64,6 +65,11 @@ transform = Transform3D(1, 0, 0, 0, 0.28943282, 0.9571983, 0, -0.9571983, 0.2894
 
 [node name="constructed_mesh" parent="." unique_id=633397180 instance=ExtResource("4_8qn7c")]
 
+[node name="scene_root" type="Node3D" parent="." unique_id=1053663563]
+
+[node name="networking" parent="scene_root" unique_id=261585203 instance=ExtResource("5_ip8dt")]
+
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_button_pressed"]
 [connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_tracked"]
 [connection signal="openxr_fb_spatial_anchor_untracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_anchor_untracked"]
+[connection signal="received_link" from="scene_root/networking" to="." method="_on_networking_received_link"]

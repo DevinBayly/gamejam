@@ -43,6 +43,10 @@ func add_transparent_material():
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 
+func set_url(url):
+	url = url
+	add_transparent_material()
+
 func _http_request_completed(result, response_code, headers, body):
 	print(type_string(typeof(body)))
 	var im = Image.new()
@@ -52,7 +56,6 @@ func _http_request_completed(result, response_code, headers, body):
 	var im_text = ImageTexture.new()
 	im_text.set_image(im)
 	print(im_text)
-	var image_texture = load("res://icon.svg")
 	vmat.albedo_texture = im_text
 	vmat.albedo_color = Color(1,1,1,.5)
 	vmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
