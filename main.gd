@@ -49,27 +49,22 @@ func _ready():
 @onready var spatial_anchor_manager: OpenXRFbSpatialAnchorManager = $XROrigin3D/OpenXRFbSpatialAnchorManager
 var anchors:Array[StringName] = [] 
 var anchor_nodes = []
-var manually_placed = false
 func _on_xr_controller_3d_button_pressed(name: String) -> void:
 	if name == "ax_button":
-		manually_placed = true
 		var transform_pt = Transform3D(Basis.IDENTITY,collision_point)
 		spatial_anchor_manager.create_anchor(transform_pt, {})
 	if name == "by_button":
-		# get the uuids
 		var uuids = spatial_anchor_manager.get_anchor_uuids()
 		for uuid in uuids:
-			if spatial_anchor_manager.get_anchor_uuids().has(uuid):
-				spatial_anchor_manager.untrack_anchor(uuid)
-		save_spatial_anchors_to_file()
+			print(uuid)
+			spatial_anchor_manager.untrack_anchor(uuid)
 		mesh_creator.reset()
 	if name == "trigger_click":
-		
 		print("positioning")
 		if anchor_nodes.size() ==0:
 			var children = $XROrigin3D.get_children()
 			for child in children:
-				if child is XRAnchor3D:
+				if child is XRAnchor3D and not child.get_child(0) is StaticBody3D:
 					anchor_nodes.push_front(child)
 		#using two markers make the set of four to upload
 		var nodes = [
@@ -90,35 +85,6 @@ func _on_xr_controller_3d_button_pressed(name: String) -> void:
 		
 
 func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
-	if not manually_placed:
-		anchor_nodes =[]
-		
-		var children = $XROrigin3D.get_children()
-		for child in children:
-			if child is XRAnchor3D:
-				# get the first child of the anchor
-				# if it's a static body then htat's the scene element
-				var anchor_child = child.get_child(0)
-				if not anchor_child is StaticBody3D:
-					anchor_nodes.push_front(child)
-		print("went through a loading", anchor_nodes.size())
-		if anchor_nodes.size() ==2:
-			var nodes = [
-			anchor_nodes[0].position,
-			Vector3(anchor_nodes[0].position.x,
-			anchor_nodes[1].position.y,
-			anchor_nodes[0].position.z),
-			anchor_nodes[1].position,
-			Vector3(anchor_nodes[1].position.x,
-			anchor_nodes[0].position.y,
-			anchor_nodes[1].position.z)
-
-			
-			]
-			print("placing frmo previuos session")
-			for a_node in nodes:
-				print(a_node)
-				mesh_creator.place_object(a_node)
 	if is_new:
 		anchors.push_front(spatial_entity.uuid)
 		anchor_nodes.push_front(anchor_node)
@@ -147,7 +113,7 @@ func load_spatial_anchors_from_file() -> void:
 	var anchor_data: Dictionary = json.data
 	if anchor_data.size() > 0:
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
-		
+	
 		#anchor_nodes.push_front(anchor_node)
 		#spatial_anchor_manager.untrack_anchor(anchor_data)
 
