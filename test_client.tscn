@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://xew8y131lgc"]
+
+[ext_resource type="PackedScene" uid="uid://cg11kqsbp2v0n" path="res://networking.tscn" id="1_ls03f"]
+[ext_resource type="PackedScene" uid="uid://cpa1ovvds0w7s" path="res://test_online_image_load.tscn" id="2_ktpax"]
+[ext_resource type="Texture2D" uid="uid://bn1bqmm6r7p4x" path="res://icon.svg" id="3_qtru5"]
+
+[node name="scene_root" type="Node3D" unique_id=2123506499]
+
+[node name="networking" parent="." unique_id=261585203 instance=ExtResource("1_ls03f")]
+
+[node name="test_online_image_load" parent="." unique_id=68059819 instance=ExtResource("2_ktpax")]
+
+[node name="Sprite2D" parent="test_online_image_load" index="0" unique_id=1713598915]
+texture = ExtResource("3_qtru5")
+
+[editable path="test_online_image_load"]
