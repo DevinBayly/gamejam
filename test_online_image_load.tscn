@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cpa1ovvds0w7s"]
+
+[ext_resource type="Script" uid="uid://dxc4ssm706kf1" path="res://test_online_image_load.gd" id="1_iplbk"]
+
+[node name="test_online_image_load" type="Node2D" unique_id=68059819]
+script = ExtResource("1_iplbk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1713598915]
