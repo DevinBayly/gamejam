@@ -48,25 +48,16 @@ func _ready():
 @onready var xr_controller_3d: XRController3D = $XROrigin3D/XRController3D
 @onready var spatial_anchor_manager: OpenXRFbSpatialAnchorManager = $XROrigin3D/OpenXRFbSpatialAnchorManager
 var anchors:Array[StringName] = [] 
-var anchor_nodes = []
-func _on_xr_controller_3d_button_pressed(name: String) -> void:
-	if name == "ax_button":
-		var transform_pt = Transform3D(Basis.IDENTITY,collision_point)
-		spatial_anchor_manager.create_anchor(transform_pt, {})
-	if name == "by_button":
-		var uuids = spatial_anchor_manager.get_anchor_uuids()
-		for uuid in uuids:
-			print(uuid)
-			spatial_anchor_manager.untrack_anchor(uuid)
-		mesh_creator.reset()
-	if name == "trigger_click":
-		print("positioning")
-		if anchor_nodes.size() ==0:
-			var children = $XROrigin3D.get_children()
-			for child in children:
-				if child is XRAnchor3D and not child.get_child(0) is StaticBody3D:
-					anchor_nodes.push_front(child)
-		#using two markers make the set of four to upload
+
+func create_mural_plane():
+	var anchor_nodes=[]
+	print("positioning")
+	var children = $XROrigin3D.get_children()
+	for child in children:
+		if child is XRAnchor3D and not child.get_child(0) is StaticBody3D:
+			anchor_nodes.push_front(child)
+	#using two markers make the set of four to upload
+	if anchor_nodes.size() ==2:
 		var nodes = [
 			anchor_nodes[0].position,
 			Vector3(anchor_nodes[0].position.x,
@@ -82,14 +73,31 @@ func _on_xr_controller_3d_button_pressed(name: String) -> void:
 		
 		for a_node in nodes:
 			mesh_creator.place_object(a_node)
+var manually_placed = false
+func _on_xr_controller_3d_button_pressed(name: String) -> void:
+	if name == "ax_button":
+		manually_placed = true
+		var transform_pt = Transform3D(Basis.IDENTITY,collision_point)
+		spatial_anchor_manager.create_anchor(transform_pt, {})
+	if name == "by_button":
+		var uuids = spatial_anchor_manager.get_anchor_uuids()
+		for uuid in uuids:
+			print(uuid)
+			spatial_anchor_manager.untrack_anchor(uuid)
+		mesh_creator.reset()
+	if name == "trigger_click":
+		create_mural_plane()
 		
 
 func _on_anchor_tracked(anchor_node: XRAnchor3D, spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
 	if is_new:
 		anchors.push_front(spatial_entity.uuid)
-		anchor_nodes.push_front(anchor_node)
 		
 		save_spatial_anchors_to_file()
+	if not manually_placed:
+		print("making plane at startup")
+		await get_tree().create_timer(2).timeout 
+		create_mural_plane()
 const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
 
 
